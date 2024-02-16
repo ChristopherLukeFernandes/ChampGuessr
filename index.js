@@ -1,6 +1,6 @@
 let champNum, champName, gender, position, species, resource, rangeType, region, year, guessChampName;
 let isUsed = new Array(167);
-class Champion {
+class Champion { // Champion class that outlines champion traits
     constructor(champNum, champName, gender, position, species, resource, rangeType, region, year) {
         this.champNum = champNum;
         this.champName = champName;
@@ -11,6 +11,61 @@ class Champion {
         this.rangeType = rangeType;
         this.region = region;
         this.year = year;
+    }
+}
+
+function showSuggestions(input) { // Functionality for dropdown menu
+    var dropdownList = document.getElementById("dropdownList");
+    dropdownList.innerHTML = ""; // Clear previous suggestions
+
+    if (input.trim() === "") {
+        dropdownList.style.display = "none"; // Hide options if input is empty
+        return;
+    }
+
+    var suggestions = ["Aatrox", "Ahri", "Akali", "Alistar", "Amumu", "Anivia", "Annie", "Aphelios", "Ashe", "Aurelion Sol", "Azir",
+        "Bard", "Blitzcrank", "Brand", "Braum",
+        "Caitlyn", "Camille", "Cassiopeia", "Cho'Gath", "Corki",
+        "Darius", "Diana", "Dr. Mundo", "Draven",
+        "Ekko", "Elise", "Evelynn", "Ezreal",
+        "Fiddlesticks", "Fiora", "Fizz",
+        "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves",
+        "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern",
+        "Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx",
+        "Kai'Sa", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Kha'Zix", "Kindred", "Kled", "Kog'Maw",
+        "LeBlanc", "Lee Sin", "Leona", "Lillia", "Lissandra", "Lucian", "Lulu", "Lux",
+        "Malphite", "Malzahar", "Maokai", "Master Yi", "Miss Fortune", "Mordekaiser", "Morgana",
+        "Nami", "Nasus", "Nautilus", "Neeko", "Nidalee", "Nocturne", "Nunu & Willump",
+        "Olaf", "Orianna", "Ornn",
+        "Pantheon", "Poppy", "Pyke",
+        "Qiyana", "Quinn",
+        "Rakan", "Rammus", "Rek'Sai", "Renekton", "Rengar", "Riven", "Rumble", "Ryze",
+        "Samira", "Sejuani", "Senna", "Seraphine", "Sett", "Shaco", "Shen", "Shyvana", "Singed", "Sion", "Sivir", "Skarner", "Sona", "Soraka", "Swain", "Sylas", "Syndra",
+        "Tahm Kench", "Taliyah", "Talon", "Taric", "Teemo", "Thresh", "Tristana", "Trundle", "Tryndamere", "Twisted Fate", "Twitch",
+        "Udyr", "Urgot",
+        "Varus", "Vayne", "Veigar", "Vel'Koz", "Vi", "Viego", "Viktor", "Vladimir", "Volibear",
+        "Warwick", "Wukong",
+        "Xayah", "Xerath", "Xin Zhao",
+        "Yasuo", "Yone", "Yorick", "Yuumi",
+        "Zac", "Zed", "Ziggs", "Zilean", "Zoe", "Zyra"];
+    var filteredSuggestions = suggestions.filter(function (suggestion) { // Filter suggestions based on input
+        return suggestion.toUpperCase().startsWith(input.toUpperCase()); // Check if the suggestion starts with the input (case-insensitive)
+    });
+
+    if (filteredSuggestions.length > 0) {// Displays filtered suggestions
+        dropdownList.style.display = "block";
+        filteredSuggestions.forEach(function (suggestion) {
+            var listItem = document.createElement("li");
+            listItem.textContent = suggestion;
+            listItem.classList.add("dropdown-item");
+            listItem.addEventListener("click", function () {
+                document.querySelector(".userGuessInput").value = suggestion; // Set input value to the clicked suggestion
+                dropdownList.style.display = "none"; // Hide the dropdown list when an item is clicked
+            });
+            dropdownList.appendChild(listItem);
+        });
+    } else {
+        dropdownList.style.display = "none"; // Hide the dropdown list if there are no suggestions
     }
 }
 
@@ -196,21 +251,23 @@ let champGuess;
 
 userGuessForm.addEventListener("submit", async event => {
     event.preventDefault();
-    guessChampName = await userGuessInput.value;
-    if (guessChampName) {
-        guessChampName = guessChampName.toLowerCase();
-        champGuess = getChampNum(guessChampName);
+    const selectedChampion = await getSelectedChampion();
+    if (selectedChampion) {
+        const guessChampName = selectedChampion.toLowerCase();
+        const champGuess = getChampNum(guessChampName);
         compareChampInfo(champGuess, ansChamp);
+    } else {
+        displayError("Please select a Champion!");
     }
-    else { displayError("Please enter a Champion!") }
 });
+
+function getSelectedChampion() {
+    return userGuessInput.value;
+}
 
 function compareChampInfo(champGuess, ansChamp) {
     let row = table.insertRow(-1);
     if (champGuess) {
-        if (champGuess.champNum === ansChamp.champNum) {
-            console.log("You Win");
-        }
         row.insertCell(0).textContent = champGuess.champName;
         row.insertCell(1).textContent = champGuess.gender;
         row.insertCell(2).textContent = champGuess.position;
@@ -219,10 +276,13 @@ function compareChampInfo(champGuess, ansChamp) {
         row.insertCell(5).textContent = champGuess.rangeType;
         row.insertCell(6).textContent = champGuess.region;
         row.insertCell(7).textContent = champGuess.year;
+        if (champGuess.champNum === ansChamp.champNum) {
+            console.log("You Win");
+        }
     }
 }
 
-function getChampNum() {
+function getChampNum(guessChampName) {
     switch (guessChampName) {
         case `aatrox`:
             if (isUsed[0] == null) {
@@ -1558,10 +1618,3 @@ function getChampNum() {
             break;
     }
 }
-
-function displayError(message) {
-    const errorDisplay = document.createElement("p");
-    errorDisplay.textContent = message;
-    errorDisplay.classList.add("errorDisplay");
-}
-
