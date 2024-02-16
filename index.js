@@ -71,7 +71,7 @@ function showSuggestions(input) { // Functionality for dropdown menu
 
 const userGuessForm = document.querySelector(".userGuessForm");
 const userGuessInput = document.querySelector(".userGuessInput");
-const table = document.querySelector("#info-table").getElementsByTagName("tbody")[0];
+const table = document.querySelector("#champ-table").getElementsByTagName("tbody")[0];
 
 function displayError(message) {
     const errorDisplay = document.createElement("p");
@@ -94,7 +94,7 @@ const champList = [
     new Champion(13, 'Bard', 'Male', 'Support', 'Celestial', 'Mana', 'Ranged', 'Runeterra', 2015),
     new Champion(14, "Bel'veth", 'Female', 'Jungle', 'Void-Being', 'Manaless', 'Melee', 'Void', 2022),
     new Champion(15, 'Blitzcrank', 'Other', 'Support', 'Golem', 'Mana', 'Melee', 'Zaun', 2009),
-    new Champion(16, 'Brand', 'Male', 'Support', 'Human', 'Mana', 'Ranged', 'Freljord', 2011),
+    new Champion(16, 'Brand', 'Male', 'Support', 'Human', 'Mana', 'Ranged', 'Runeterra', 2011),
     new Champion(17, 'Braum', 'Male', 'Support', 'Iceborn', 'Mana', 'Melee', 'Freljord', 2014),
     new Champion(18, 'Briar', 'Female', 'Jungle', 'Golem', 'Health costs', 'Melee', 'Noxus', 2023),
     new Champion(19, 'Caitlyn', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Piltover', 2011),
@@ -246,7 +246,7 @@ const champList = [
     new Champion(165, 'Zoe', 'Female', 'Middle', 'Aspect', 'Mana', 'Ranged', 'Targon', 2017),
     new Champion(166, 'Zyra', 'Female', 'Support', 'Unknown', 'Mana', 'Ranged', 'Ixtal', 2012)
 ];
-let ansChamp = champList[Math.floor(Math.random() * 12)];
+let ansChamp = champList[0];
 let champGuess;
 
 userGuessForm.addEventListener("submit", async event => {
@@ -265,17 +265,57 @@ function getSelectedChampion() {
     return userGuessInput.value;
 }
 
-function compareChampInfo(champGuess, ansChamp) {
+function sleep(seconds) {
+    return new Promise (resolve => setTimeout(resolve, seconds));
+}
+
+async function compareChampInfo(champGuess, ansChamp) {
+    let table = document.getElementById("champ-table");
     let row = table.insertRow(-1);
     if (champGuess) {
+
         row.insertCell(0).textContent = champGuess.champName;
+        if (champGuess.champName == ansChamp.champName){row.cells[0].classList.add("rotating-cell-correct");}
+        else {row.cells[0].classList.add("rotating-cell-incorrect");}
+        await sleep(500);
+
         row.insertCell(1).textContent = champGuess.gender;
+        if (champGuess.gender == ansChamp.gender){row.cells[1].classList.add("rotating-cell-correct");}
+        else {row.cells[1].classList.add("rotating-cell-incorrect");}
+        await sleep(500);
+
         row.insertCell(2).textContent = champGuess.position;
+        if (champGuess.position == ansChamp.position){row.cells[2].classList.add("rotating-cell-correct");}
+        else {row.cells[2].classList.add("rotating-cell-incorrect");}
+        await sleep(500);
+
         row.insertCell(3).textContent = champGuess.species;
+        if (champGuess.species == ansChamp.species){row.cells[3].classList.add("rotating-cell-correct");}
+        else {row.cells[3].classList.add("rotating-cell-incorrect");}
+        await sleep(500);
+
         row.insertCell(4).textContent = champGuess.resource;
+        if (champGuess.resource == ansChamp.resource){row.cells[4].classList.add("rotating-cell-correct");}
+        else {row.cells[4].classList.add("rotating-cell-incorrect");}
+        await sleep(500);
+
+
         row.insertCell(5).textContent = champGuess.rangeType;
+        if (champGuess.rangeType == ansChamp.rangeType){row.cells[5].classList.add("rotating-cell-correct");}
+        else {row.cells[5].classList.add("rotating-cell-incorrect");}
+        await sleep(500);
+
+
         row.insertCell(6).textContent = champGuess.region;
+        if (champGuess.region == ansChamp.region){row.cells[6].classList.add("rotating-cell-correct");}
+        else {row.cells[6].classList.add("rotating-cell-incorrect");}
+        await sleep(500);
+
         row.insertCell(7).textContent = champGuess.year;
+        if (champGuess.year == ansChamp.year){row.cells[7].classList.add("rotating-cell-correct");}
+        else {row.cells[7].classList.add("rotating-cell-incorrect");}
+        await sleep(500);
+
         if (champGuess.champNum === ansChamp.champNum) {
             console.log("You Win");
         }

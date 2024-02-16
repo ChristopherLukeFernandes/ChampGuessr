@@ -1,38 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang = "en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset = "UTF-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
     <title>ChampGuessr</title>
     <link rel = "stylesheet" href = "style.css">
 </head>
 
 <body>
-    <form class="userGuessForm">
-        <input type="text" id = "userInput" class="userGuessInput" oninput="showSuggestions(this.value)" placeholder="Enter Champion...">
-        <ul class="dropdown-list" id="dropdownList"></ul>
+    <form class = "userGuessForm">
+        <input type = "text" id = "userInput" class="userGuessInput" oninput = "showSuggestions(this.value)" placeholder = "Enter Champion...">
+        <ul class = "dropdown-list" id = "dropdownList"></ul>
         <button type = "submit" id = "submitButton">Guess</button>
     </form>
 
-    <div style="text-align:center">
-        <table id="info-table">
-            <thead>
-                <tr align="center">
-                    <th width="75">Icon</th>
-                    <th width="75">Gender</th>
-                    <th width="75">Position</th>
-                    <th width="75">Species</th>
-                    <th width="75">Resource</th>
-                    <th width="75">Range Type</th>
-                    <th width="75">Region</th>
-                    <th width="75">Released</th>
+    <div style = "text-align:center">
+        <table id = "champ-table">
+            <thead id = "topRow">
+                <tr align = "center">
+                    <th width="100">Icon</th>
+                    <th width="100">Gender</th>
+                    <th width="100">Position</th>
+                    <th width="100">Species</th>
+                    <th width="100">Resource</th>
+                    <th width="100">Range Type</th>
+                    <th width="100">Region</th>
+                    <th width="100">Released</th>
                 </tr>
             </thead>
+            <div>
             <tbody>
             </tbody>
+        </div>
+        </div>
         </table>
     </div>
-    <script src="index.js"></script>
+    <script src = "index.js"></script>
 </body>
 </html>
