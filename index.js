@@ -1,8 +1,9 @@
-let champNum, champName, gender, position, species, resource, rangeType, region, year, guessChampName;
+let champNum, champImage, champName, gender, position, species, resource, rangeType, region, year, guessChampName;
 let isUsed = new Array(167);
 class Champion { // Champion class that outlines champion traits
-    constructor(champNum, champName, gender, position, species, resource, rangeType, region, year) {
+    constructor(champNum, champImage, champName, gender, position, species, resource, rangeType, region, year) {
         this.champNum = champNum;
+        this.champImage = champImage;
         this.champName = champName;
         this.gender = gender;
         this.position = position;
@@ -32,7 +33,7 @@ function showSuggestions(input) { // Functionality for dropdown menu
         "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves",
         "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern",
         "Janna", "Jarvan IV", "Jax", "Jayce", "Jhin", "Jinx",
-        "Kai'Sa", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Kha'Zix", "Kindred", "Kled", "Kog'Maw",
+        "K'Sante", "Kai'Sa", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Kha'Zix", "Kindred", "Kled", "Kog'Maw",
         "LeBlanc", "Lee Sin", "Leona", "Lillia", "Lissandra", "Lucian", "Lulu", "Lux",
         "Malphite", "Malzahar", "Maokai", "Master Yi", "Miss Fortune", "Mordekaiser", "Morgana",
         "Nami", "Nasus", "Nautilus", "Neeko", "Nidalee", "Nocturne", "Nunu & Willump",
@@ -72,6 +73,7 @@ function showSuggestions(input) { // Functionality for dropdown menu
 const userGuessForm = document.querySelector(".userGuessForm");
 const userGuessInput = document.querySelector(".userGuessInput");
 const table = document.querySelector("#champ-table").getElementsByTagName("tbody")[0];
+const imageContainer = document.getElementById('#icon-display');
 
 function displayError(message) {
     const errorDisplay = document.createElement("p");
@@ -79,172 +81,172 @@ function displayError(message) {
 }
 
 const champList = [
-    new Champion(1, "Aatrox", "Male", "Top", "Darkin", "None", "Melee", "Runeterra", 2013),
-    new Champion(2, "Ahri", "Female", "Mid", "Vastayan", "Mana", "Ranged", "Ionia", 2011),
-    new Champion(3, "Akali", "Female", "Mid", "Human", "Energy", "Melee", "Ionia", 2013),
-    new Champion(4, "Akshan", "Male", "Mid", "Human", "Mana", "Ranged", "Shurima", 2021),
-    new Champion(5, "Alistar", "Male", "Support", "Minotaur", "Mana", "Melee", "Runeterra", 2009),
-    new Champion(6, "Amumu", "Male", "Jungle", "Yordle", "Mana", "Melee", "Shurima", 2009),
-    new Champion(7, "Anivia", "Female", "Mid", "God", "Mana", "Ranged", "Freljord", 2009),
-    new Champion(8, "Annie", "Female", "Mid", "Human", "Mana", "Ranged", "Noxus", 2009),
-    new Champion(9, "Aphelios", "Male", "Bot", "Human", "Mana", "Ranged", "Targon", 2019),
-    new Champion(10, "Ashe", "Female", "Bot", "Iceborn", "Mana", "Ranged", "Freljord", 2009),
-    new Champion(11, "Aurelion Sol", "Male", "Mid", "Celestial", "Mana", "Ranged", "Targon", 2016),
-    new Champion(12, "Azir", "Male", "Mid", "Ascended", "Mana", "Ranged", "Shurima", 2014),
-    new Champion(13, 'Bard', 'Male', 'Support', 'Celestial', 'Mana', 'Ranged', 'Runeterra', 2015),
-    new Champion(14, "Bel'veth", 'Female', 'Jungle', 'Void-Being', 'Manaless', 'Melee', 'Void', 2022),
-    new Champion(15, 'Blitzcrank', 'Other', 'Support', 'Golem', 'Mana', 'Melee', 'Zaun', 2009),
-    new Champion(16, 'Brand', 'Male', 'Support', 'Human', 'Mana', 'Ranged', 'Runeterra', 2011),
-    new Champion(17, 'Braum', 'Male', 'Support', 'Iceborn', 'Mana', 'Melee', 'Freljord', 2014),
-    new Champion(18, 'Briar', 'Female', 'Jungle', 'Golem', 'Health costs', 'Melee', 'Noxus', 2023),
-    new Champion(19, 'Caitlyn', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Piltover', 2011),
-    new Champion(20, 'Camille', 'Female', 'Top', 'Cyborg', 'Mana', 'Melee', 'Piltover', 2016),
-    new Champion(21, 'Cassiopeia', 'Female', 'Middle', 'Human', 'Mana', 'Ranged', 'Noxus', 2010),
-    new Champion(22, "Cho'gath", 'Male', 'Top', 'Void-Being', 'Mana', 'Melee', 'Void', 2009),
-    new Champion(23, 'Corki', 'Male', 'Middle', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2009),
-    new Champion(24, 'Darius', 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Noxus', 2012),
-    new Champion(25, 'Diana', 'Female', 'Middle', 'Aspect', 'Mana', 'Melee', 'Targon', 2012),
-    new Champion(26, 'Dr.Mundo', 'Male', 'Top', 'Human', 'Health costs', 'Melee', 'Zaun', 2009),
-    new Champion(27, 'Draven', 'Male', 'Bottom', 'Human', 'Mana', 'Ranged', 'Noxus', 2012),
-    new Champion(28, 'Ekko', 'Male', 'Middle', 'Human', 'Mana', 'Melee', 'Zaun', 2015),
-    new Champion(29, 'Elise', 'Female', 'Jungle', 'Human', 'Mana', 'Both', 'Shadow Isles', 2012),
-    new Champion(30, 'Evelynn', 'Female', 'Jungle', 'Demon', 'Mana', 'Melee', 'Runeterra', 2009),
-    new Champion(31, 'Ezreal', 'Male', 'Bottom', 'Human', 'Mana', 'Ranged', 'Piltover', 2010),
-    new Champion(32, 'Fiddlesticks', 'Other', 'Jungle', 'Demon', 'Mana', 'Ranged', 'Runeterra', 2009),
-    new Champion(33, 'Fiora', 'Female', 'Top', 'Human', 'Mana', 'Melee', 'Demacia', 2012),
-    new Champion(34, 'Fizz', 'Male', 'Middle', 'Yordle', 'Mana', 'Melee', 'Bilgewater', 2011),
-    new Champion(35, 'Galio', 'Male', 'Middle', 'Golem', 'Mana', 'Melee', 'Demacia', 2010),
-    new Champion(36, 'Gangplank', 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Bilgewater', 2009),
-    new Champion(37, 'Garen', 'Male', 'Top', 'Human', 'Manaless', 'Melee', 'Demacia', 2010),
-    new Champion(38, 'Gnar', 'Male', 'Top', 'Yordle', 'Rage', 'Both', 'Freljord', 2014),
-    new Champion(39, 'Gragas', 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Freljord', 2010),
-    new Champion(40, 'Graves', 'Male', 'Jungle', 'Human', 'Mana', 'Ranged', 'Bilgewater', 2011),
-    new Champion(41, 'Gwen', 'Female', 'Top', 'Human', 'Mana', 'Melee', 'Shadow Isles', 2021),
-    new Champion(42, 'Hecarim', 'Male', 'Jungle', 'Undead', 'Mana', 'Melee', 'Shadow Isles', 2012),
-    new Champion(43, 'Heimerdinger', 'Male', 'Middle', 'Yordle', 'Mana', 'Ranged', 'Piltover', 2009),
-    new Champion(44, 'Hwei', 'Male', 'Middle', 'Human', 'Mana', 'Ranged', 'Ionia', 2023),
-    new Champion(45, 'Illaoi', 'Female', 'Top', 'Human', 'Mana', 'Melee', 'Bilgewater', 2015),
-    new Champion(46, 'Irelia', 'Female', 'Top', 'Human', 'Mana', 'Melee', 'Ionia', 2010),
-    new Champion(47, 'Ivern', 'Male', 'Jungle', 'Magically Altered', 'Mana', 'Ranged', 'Ionia', 2016),
-    new Champion(48, 'Janna', 'Female', 'Support', 'God', 'Mana', 'Ranged', 'Zaun', 2009),
-    new Champion(49, 'Jarvan IV', 'Male', 'Jungle', 'Human', 'Mana', 'Melee', 'Demacia', 2011),
-    new Champion(50, 'Jax', 'Male', 'Top', 'Unknown', 'Mana', 'Melee', 'Runeterra', 2009),
-    new Champion(51, 'Jayce', 'Male', 'Top', 'Human', 'Mana', 'Both', 'Piltover', 2012),
-    new Champion(52, 'Jhin', 'Male', 'Bottom', 'Human', 'Mana', 'Ranged', 'Ionia', 2016),
-    new Champion(53, 'Jinx', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Zaun', 2013),
-    new Champion(54, "K'sante", 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Shurima', 2022),
-    new Champion(55, "Kai'sa", 'Female', 'Bottom', 'Void-Being', 'Mana', 'Ranged', 'Void', 2018),
-    new Champion(56, 'Kalista', 'Female', 'Bottom', 'Undead', 'Mana', 'Ranged', 'Shadow Isles', 2014),
-    new Champion(57, 'Karma', 'Female', 'Support', 'Spiritualist', 'Mana', 'Ranged', 'Ionia', 2011),
-    new Champion(58, 'Karthus', 'Male', 'Jungle', 'Undead', 'Mana', 'Ranged', 'Shadow Isles', 2009),
-    new Champion(59, 'Kassadin', 'Male', 'Middle', 'Void-Being', 'Mana', 'Melee', 'Void', 2009),
-    new Champion(60, 'Katarina', 'Female', 'Middle', 'Human', 'Manaless', 'Melee', 'Noxus', 2009),
-    new Champion(61, 'Kayle', 'Female', 'Top', 'Aspect', 'Mana', 'Both', 'Demacia', 2009),
-    new Champion(62, 'Kayn', 'Male', 'Jungle', 'Magically Altered', 'Mana', 'Melee', 'Ionia', 2017),
-    new Champion(63, 'Kennen', 'Male', 'Top', 'Yordle', 'Energy', 'Ranged', 'Ionia', 2010),
-    new Champion(64, "Kha'zix", 'Male', 'Jungle', 'Void-Being', 'Mana', 'Melee', 'Void', 2012),
-    new Champion(65, 'Kindred', 'Other', 'Jungle', 'God', 'Mana', 'Ranged', 'Runeterra', 2015),
-    new Champion(66, 'Kled', 'Male', 'Top', 'Yordle', 'Courage', 'Melee', 'Noxus', 2016),
-    new Champion(67, "Kog'maw", 'Male', 'Bottom', 'Void-Being', 'Mana', 'Ranged', 'Void', 2010),
-    new Champion(68, 'Leblanc', 'Female', 'Middle', 'Magically Altered', 'Mana', 'Ranged', 'Noxus', 2010),
-    new Champion(69, 'Lee Sin', 'Male', 'Jungle', 'Spiritualist', 'Energy', 'Melee', 'Ionia', 2011),
-    new Champion(70, 'Leona', 'Female', 'Support', 'Aspect', 'Mana', 'Melee', 'Targon', 2011),
-    new Champion(71, 'Lillia', 'Female', 'Jungle', 'Spirit', 'Mana', 'Melee', 'Ionia', 2020),
-    new Champion(72, 'Lissandra', 'Female', 'Middle', 'Iceborn', 'Mana', 'Ranged', 'Freljord', 2013),
-    new Champion(73, 'Lucian', 'Male', 'Bottom', 'Human', 'Mana', 'Ranged', 'Demacia', 2013),
-    new Champion(74, 'Lulu', 'Female', 'Support', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2012),
-    new Champion(75, 'Lux', 'Female', 'Support', 'Human', 'Mana', 'Ranged', 'Demacia', 2010),
-    new Champion(76, 'Malphite', 'Male', 'Top', 'Golem', 'Mana', 'Melee', 'Ixtal', 2009),
-    new Champion(77, 'Malzahar', 'Male', 'Middle', 'Void-Being', 'Mana', 'Ranged', 'Void', 2010),
-    new Champion(78, 'Maokai', 'Male', 'Support', 'Spirit', 'Mana', 'Melee', 'Shadow Isles', 2011),
-    new Champion(79, 'Master Yi', 'Male', 'Jungle', 'Spiritualist', 'Mana', 'Melee', 'Ionia', 2009),
-    new Champion(80, 'Milio', 'Male', 'Support', 'Human', 'Mana', 'Ranged', 'Ixtal', 2023),
-    new Champion(81, 'Miss Fortune', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Bilgewater', 2010),
-    new Champion(82, 'Mordekaiser', 'Male', 'Top', 'Revenant', 'Shield', 'Melee', 'Noxus', 2010),
-    new Champion(83, 'Morgana', 'Female', 'Support', 'Aspect', 'Mana', 'Ranged', 'Demacia', 2009),
-    new Champion(84, 'Naafiri', 'Female', 'Middle', 'Darkin', 'Mana', 'Melee', 'Shurima', 2023),
-    new Champion(85, 'Nami', 'Female', 'Support', 'Vastayan', 'Mana', 'Ranged', 'Bilgewater', 2012),
-    new Champion(86, 'Nasus', 'Male', 'Top', 'Ascended', 'Mana', 'Melee', 'Shurima', 2009),
-    new Champion(87, 'Nautilus', 'Male', 'Support', 'Revenant', 'Mana', 'Melee', 'Bilgewater', 2012),
-    new Champion(88, 'Neeko', 'Female', 'Middle', 'Vastayan', 'Mana', 'Ranged', 'Ixtal', 2018),
-    new Champion(89, 'Nidalee', 'Female', 'Jungle', 'Human', 'Mana', 'Both', 'Ixtal', 2009),
-    new Champion(90, 'Nilah', 'Female', 'Bottom', 'Human', 'Mana', 'Melee', 'Bilgewater', 2022),
-    new Champion(91, 'Nocturne', 'Male', 'Jungle', 'Demon', 'Mana', 'Melee', 'Runeterra', 2011),
-    new Champion(92, 'Nunu & Willump', 'Male', 'Jungle', 'Human', 'Mana', 'Melee', 'Freljord', 2009),
-    new Champion(93, 'Olaf', 'Male', 'Top', 'Iceborn', 'Mana', 'Melee', 'Freljord', 2010),
-    new Champion(94, 'Orianna', 'Female', 'Middle', 'Golem', 'Mana', 'Ranged', 'Piltover', 2011),
-    new Champion(95, 'Ornn', 'Male', 'Top', 'God', 'Mana', 'Melee', 'Freljord', 2017),
-    new Champion(96, 'Pantheon', 'Male', 'Middle', 'Aspect', 'Mana', 'Melee', 'Targon', 2010),
-    new Champion(97, 'Poppy', 'Female', 'Top', 'Yordle', 'Mana', 'Melee', 'Demacia', 2010),
-    new Champion(98, 'Pyke', 'Male', 'Support', 'Revenant', 'Mana', 'Melee', 'Bilgewater', 2018),
-    new Champion(99, 'Qiyana', 'Female', 'Middle', 'Human', 'Mana', 'Melee', 'Ixtal', 2019),
-    new Champion(100, 'Quinn', 'Female', 'Top', 'Human', 'Mana', 'Ranged', 'Demacia', 2013),
-    new Champion(101, 'Rakan', 'Male', 'Support', 'Vastayan', 'Mana', 'Melee', 'Ionia', 2017),
-    new Champion(102, 'Rammus', 'Male', 'Jungle', 'Ascended', 'Mana', 'Melee', 'Shurima', 2009),
-    new Champion(103, "Rek'sai", 'Female', 'Jungle', 'Void-Being', 'Rage', 'Melee', 'Void', 2014),
-    new Champion(104, 'Rell', 'Female', 'Support', 'Human', 'Mana', 'Melee', 'Noxus', 2020),
-    new Champion(105, 'Renata Glasc', 'Female', 'Support', 'Human', 'Mana', 'Ranged', 'Zaun', 2022),
-    new Champion(106, 'Renekton', 'Male', 'Top', 'Ascended', 'Fury', 'Melee', 'Shurima', 2011),
-    new Champion(107, 'Rengar', 'Male', 'Jungle', 'Vastayan', 'Ferocity', 'Melee', 'Ixtal', 2012),
-    new Champion(108, 'Riven', 'Female', 'Top', 'Human', 'Manaless', 'Melee', 'Ionia', 2011),
-    new Champion(109, 'Rumble', 'Male', 'Top', 'Yordle', 'Heat', 'Melee', 'Bandle City', 2011),
-    new Champion(110, 'Ryze', 'Male', 'Middle', 'Human', 'Mana', 'Ranged', 'Runeterra', 2009),
-    new Champion(111, 'Samira', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Noxus', 2020),
-    new Champion(112, 'Sejuani', 'Female', 'Jungle', 'Iceborn', 'Mana', 'Melee', 'Freljord', 2012),
-    new Champion(113, 'Senna', 'Female', 'Support', 'Undead', 'Mana', 'Ranged', 'Shadow Isles', 2019),
-    new Champion(114, 'Seraphine', 'Female', 'Support', 'Human', 'Mana', 'Ranged', 'Zaun', 2020),
-    new Champion(115, 'Sett', 'Male', 'Top', 'Vastayan', 'Grit', 'Melee', 'Ionia', 2020),
-    new Champion(116, 'Shaco', 'Male', 'Jungle', 'Spirit', 'Mana', 'Melee', 'Runeterra', 2009),
-    new Champion(117, 'Shen', 'Male', 'Top', 'Human', 'Energy', 'Melee', 'Ionia', 2010),
-    new Champion(118, 'Shyvana', 'Female', 'Jungle', 'Dragon', 'Fury', 'Melee', 'Demacia', 2011),
-    new Champion(119, 'Singed', 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Zaun', 2009),
-    new Champion(120, 'Sion', 'Male', 'Top', 'Revenant', 'Mana', 'Melee', 'Noxus', 2009),
-    new Champion(121, 'Sivir', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Shurima', 2009),
-    new Champion(122, 'Skarner', 'Male', 'Jungle', 'Brackern', 'Mana', 'Melee', 'Shurima', 2011),
-    new Champion(123, 'Sona', 'Female', 'Support', 'Human', 'Mana', 'Ranged', 'Demacia', 2010),
-    new Champion(124, 'Soraka', 'Female', 'Support', 'Celestial', 'Mana', 'Ranged', 'Targon', 2009),
-    new Champion(125, 'Swain', 'Male', 'Support', 'Human', 'Mana', 'Ranged', 'Noxus', 2010),
-    new Champion(126, 'Sylas', 'Male', 'Middle', 'Human', 'Mana', 'Melee', 'Demacia', 2019),
-    new Champion(127, 'Syndra', 'Female', 'Middle', 'Human', 'Mana', 'Ranged', 'Ionia', 2012),
-    new Champion(128, 'Tahm Kench', 'Male', 'Top', 'Demon', 'Mana', 'Melee', 'Bilgewater', 2015),
-    new Champion(129, 'Taliyah', 'Female', 'Middle', 'Human', 'Mana', 'Ranged', 'Shurima', 2016),
-    new Champion(130, 'Talon', 'Male', 'Middle', 'Human', 'Mana', 'Melee', 'Noxus', 2011),
-    new Champion(131, 'Taric', 'Male', 'Support', 'Aspect', 'Mana', 'Melee', 'Targon', 2009),
-    new Champion(132, 'Teemo', 'Male', 'Top', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2009),
-    new Champion(133, 'Thresh', 'Male', 'Support', 'Undead', 'Mana', 'Ranged', 'Shadow Isles', 2013),
-    new Champion(134, 'Tristana', 'Female', 'Bottom', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2009),
-    new Champion(135, 'Trundle', 'Male', 'Top', 'Iceborn', 'Mana', 'Melee', 'Freljord', 2010),
-    new Champion(136, 'Tryndamere', 'Male', 'Top', 'Human', 'Fury', 'Melee', 'Freljord', 2009),
-    new Champion(137, 'Twisted Fate', 'Male', 'Middle', 'Human', 'Mana', 'Ranged', 'Bilgewater', 2009),
-    new Champion(138, 'Twitch', 'Male', 'Bottom', 'Chemically Altered', 'Mana', 'Ranged', 'Zaun', 2009),
-    new Champion(139, 'Udyr', 'Male', 'Jungle', 'Spiritualist', 'Mana', 'Melee', 'Freljord', 2009),
-    new Champion(140, 'Urgot', 'Male', 'Top', 'Chemically Altered', 'Mana', 'Ranged', 'Zaun', 2010),
-    new Champion(141, 'Varus', 'Male', 'Bottom', 'Darkin', 'Mana', 'Ranged', 'Ionia', 2012),
-    new Champion(142, 'Vayne', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Demacia', 2011),
-    new Champion(143, 'Veigar', 'Male', 'Middle', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2009),
-    new Champion(144, "Vel'koz", 'Male', 'Middle', 'Void-Being', 'Mana', 'Ranged', 'Void', 2014),
-    new Champion(145, 'Vex', 'Female', 'Middle', 'Yordle', 'Mana', 'Ranged', 'Shadow Isles', 2021),
-    new Champion(146, 'Vi', 'Female', 'Jungle', 'Human', 'Mana', 'Melee', 'Zaun', 2012),
-    new Champion(147, 'Viego', 'Male', 'Jungle', 'Undead', 'Manaless', 'Melee', 'Shadow Isles', 2021),
-    new Champion(148, 'Viktor', 'Male', 'Middle', 'Human', 'Mana', 'Ranged', 'Zaun', 2011),
-    new Champion(149, 'Vladimir', 'Male', 'Middle', 'Human', 'Bloodthirst', 'Ranged', 'Noxus', 2010),
-    new Champion(150, 'Volibear', 'Male', 'Top', 'God', 'Mana', 'Melee', 'Freljord', 2011),
-    new Champion(151, 'Warwick', 'Male', 'Jungle', 'Chemically Altered', 'Mana', 'Melee', 'Zaun', 2009),
-    new Champion(152, 'Wukong', 'Male', 'Top', 'Vastayan', 'Mana', 'Melee', 'Ionia', 2011),
-    new Champion(153, 'Xayah', 'Female', 'Bottom', 'Vastayan', 'Mana', 'Ranged', 'Ionia', 2017),
-    new Champion(154, 'Xerath', 'Male', 'Middle', 'Ascended', 'Mana', 'Ranged', 'Shurima', 2011),
-    new Champion(155, 'Xin Zhao', 'Male', 'Jungle', 'Human', 'Mana', 'Melee', 'Demacia', 2010),
-    new Champion(156, 'Yasuo', 'Male', 'Middle', 'Human', 'Flow', 'Melee', 'Ionia', 2013),
-    new Champion(157, 'Yone', 'Male', 'Middle', 'Magically Altered', 'Manaless', 'Melee', 'Ionia', 2020),
-    new Champion(158, 'Torick', 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Shadow Isles', 2011),
-    new Champion(159, 'Yuumi', 'Female', 'Support', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2019),
-    new Champion(160, 'Zac', 'Male', 'Jungle', 'Golem', 'Health costs', 'Melee', 'Zaun', 2013),
-    new Champion(161, 'Zed', 'Male', 'Middle', 'Human', 'Energy', 'Melee', 'Ionia', 2012),
-    new Champion(162, 'Zeri', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Zaun', 2022),
-    new Champion(163, 'Ziggs', 'Male', 'Middle', 'Yordle', 'Mana', 'Ranged', 'Zaun', 2012),
-    new Champion(164, 'Zilean', 'Male', 'Support', 'Human', 'Mana', 'Ranged', 'Shurima', 2009),
-    new Champion(165, 'Zoe', 'Female', 'Middle', 'Aspect', 'Mana', 'Ranged', 'Targon', 2017),
-    new Champion(166, 'Zyra', 'Female', 'Support', 'Unknown', 'Mana', 'Ranged', 'Ixtal', 2012)
+    new Champion(1, "Champions/Aatrox.png", "Aatrox", "Male", "Top", "Darkin", "None", "Melee", "Runeterra", 2013),
+    new Champion(2, "Champions/Ahri.png", "Ahri", "Female", "Mid", "Vastayan", "Mana", "Ranged", "Ionia", 2011),
+    new Champion(3, "Champions/Akali.png", "Akali", "Female", "Mid", "Human", "Energy", "Melee", "Ionia", 2013),
+    new Champion(4, "Champions/Akshan.png", "Akshan", "Male", "Mid", "Human", "Mana", "Ranged", "Shurima", 2021),
+    new Champion(5, "Champions/Alistar.png", "Alistar", "Male", "Support", "Minotaur", "Mana", "Melee", "Runeterra", 2009),
+    new Champion(6, "Champions/Amumu.png", "Amumu", "Male", "Jungle", "Yordle", "Mana", "Melee", "Shurima", 2009),
+    new Champion(7, "Champions/Anivia.png", "Anivia", "Female", "Mid", "God", "Mana", "Ranged", "Freljord", 2009),
+    new Champion(8, "Champions/Annie.png", "Annie", "Female", "Mid", "Human", "Mana", "Ranged", "Noxus", 2009),
+    new Champion(9, "Champions/Aphelios.png", "Aphelios", "Male", "Bot", "Human", "Mana", "Ranged", "Targon", 2019),
+    new Champion(10, "Champions/Ashe.png", "Ashe", "Female", "Bot", "Iceborn", "Mana", "Ranged", "Freljord", 2009),
+    new Champion(11, "Champions/AurelionSol.png", "Aurelion Sol", "Male", "Mid", "Celestial", "Mana", "Ranged", "Targon", 2016),
+    new Champion(12, "Champions/Azir.png", "Azir", "Male", "Mid", "Ascended", "Mana", "Ranged", "Shurima", 2014),
+    new Champion(13, "Champions/Bard.png", 'Bard', 'Male', 'Support', 'Celestial', 'Mana', 'Ranged', 'Runeterra', 2015),
+    new Champion(14, "Champions/BelVeth.png", "Bel'veth", 'Female', 'Jungle', 'Void-Being', 'Manaless', 'Melee', 'Void', 2022),
+    new Champion(15, "Champions/Blitzcrank.png", 'Blitzcrank', 'Other', 'Support', 'Golem', 'Mana', 'Melee', 'Zaun', 2009),
+    new Champion(16, "Champions/Brand.png", 'Brand', 'Male', 'Support', 'Human', 'Mana', 'Ranged', 'Runeterra', 2011),
+    new Champion(17, "Champions/Braum.png", 'Braum', 'Male', 'Support', 'Iceborn', 'Mana', 'Melee', 'Freljord', 2014),
+    new Champion(18, "Champions/Briar.png", 'Briar', 'Female', 'Jungle', 'Golem', 'Health costs', 'Melee', 'Noxus', 2023),
+    new Champion(19, "Champions/Caitlyn.png", 'Caitlyn', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Piltover', 2011),
+    new Champion(20, "Champions/Camille.png", 'Camille', 'Female', 'Top', 'Cyborg', 'Mana', 'Melee', 'Piltover', 2016),
+    new Champion(21, "Champions/Cassiopeia.png", 'Cassiopeia', 'Female', 'Middle', 'Human', 'Mana', 'Ranged', 'Noxus', 2010),
+    new Champion(22, "Champions/ChoGath.png", "Cho'gath", 'Male', 'Top', 'Void-Being', 'Mana', 'Melee', 'Void', 2009),
+    new Champion(23, "Champions/Corki.png", 'Corki', 'Male', 'Middle', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2009),
+    new Champion(24, "Champions/Darius.png", 'Darius', 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Noxus', 2012),
+    new Champion(25, "Champions/Diana.png", 'Diana', 'Female', 'Middle', 'Aspect', 'Mana', 'Melee', 'Targon', 2012),
+    new Champion(26, "Champions/DrMundo.png", 'Dr.Mundo', 'Male', 'Top', 'Human', 'Health costs', 'Melee', 'Zaun', 2009),
+    new Champion(27, "Champions/Draven.png", 'Draven', 'Male', 'Bottom', 'Human', 'Mana', 'Ranged', 'Noxus', 2012),
+    new Champion(28, "Champions/Ekko.png", 'Ekko', 'Male', 'Middle', 'Human', 'Mana', 'Melee', 'Zaun', 2015),
+    new Champion(29, "Champions/Elise.png", 'Elise', 'Female', 'Jungle', 'Human', 'Mana', 'Both', 'Shadow Isles', 2012),
+    new Champion(30, "Champions/Evelynn.png", 'Evelynn', 'Female', 'Jungle', 'Demon', 'Mana', 'Melee', 'Runeterra', 2009),
+    new Champion(31, "Champions/Ezreal.png", 'Ezreal', 'Male', 'Bottom', 'Human', 'Mana', 'Ranged', 'Piltover', 2010),
+    new Champion(32, "Champions/Fiddlesticks.png", 'Fiddlesticks', 'Other', 'Jungle', 'Demon', 'Mana', 'Ranged', 'Runeterra', 2009),
+    new Champion(33, "Champions/Fiora.png", 'Fiora', 'Female', 'Top', 'Human', 'Mana', 'Melee', 'Demacia', 2012),
+    new Champion(34, "Champions/Fizz.png", 'Fizz', 'Male', 'Middle', 'Yordle', 'Mana', 'Melee', 'Bilgewater', 2011),
+    new Champion(35, "Champions/Galio.png", 'Galio', 'Male', 'Middle', 'Golem', 'Mana', 'Melee', 'Demacia', 2010),
+    new Champion(36, "Champions/Gangplank.png", 'Gangplank', 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Bilgewater', 2009),
+    new Champion(37, "Champions/Garen.png", 'Garen', 'Male', 'Top', 'Human', 'Manaless', 'Melee', 'Demacia', 2010),
+    new Champion(38, "Champions/Gnar.png", 'Gnar', 'Male', 'Top', 'Yordle', 'Rage', 'Both', 'Freljord', 2014),
+    new Champion(39, "Champions/Gragas.png", 'Gragas', 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Freljord', 2010),
+    new Champion(40, "Champions/Graves.png", 'Graves', 'Male', 'Jungle', 'Human', 'Mana', 'Ranged', 'Bilgewater', 2011),
+    new Champion(41, "Champions/Gwen.png", 'Gwen', 'Female', 'Top', 'Human', 'Mana', 'Melee', 'Shadow Isles', 2021),
+    new Champion(42, "Champions/Hecarim.png", 'Hecarim', 'Male', 'Jungle', 'Undead', 'Mana', 'Melee', 'Shadow Isles', 2012),
+    new Champion(43, "Champions/Heimerdinger.png", 'Heimerdinger', 'Male', 'Middle', 'Yordle', 'Mana', 'Ranged', 'Piltover', 2009),
+    new Champion(44, "Champions/Hwei.png", 'Hwei', 'Male', 'Middle', 'Human', 'Mana', 'Ranged', 'Ionia', 2023),
+    new Champion(45, "Champions/Illaoi.png", 'Illaoi', 'Female', 'Top', 'Human', 'Mana', 'Melee', 'Bilgewater', 2015),
+    new Champion(46, "Champions/Irelia.png", 'Irelia', 'Female', 'Top', 'Human', 'Mana', 'Melee', 'Ionia', 2010),
+    new Champion(47, "Champions/Ivern.png", 'Ivern', 'Male', 'Jungle', 'Magically Altered', 'Mana', 'Ranged', 'Ionia', 2016),
+    new Champion(48, "Champions/Janna.png", 'Janna', 'Female', 'Support', 'God', 'Mana', 'Ranged', 'Zaun', 2009),
+    new Champion(49, "Champions/JarvanIV.png", 'Jarvan IV', 'Male', 'Jungle', 'Human', 'Mana', 'Melee', 'Demacia', 2011),
+    new Champion(50, "Champions/Jax.png", 'Jax', 'Male', 'Top', 'Unknown', 'Mana', 'Melee', 'Runeterra', 2009),
+    new Champion(51, "Champions/Jayce.png", 'Jayce', 'Male', 'Top', 'Human', 'Mana', 'Both', 'Piltover', 2012),
+    new Champion(52, "Champions/Jhin.png", 'Jhin', 'Male', 'Bottom', 'Human', 'Mana', 'Ranged', 'Ionia', 2016),
+    new Champion(53, "Champions/Jinx.png", 'Jinx', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Zaun', 2013),
+    new Champion(54, "Champions/KSante.png", "K'sante", 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Shurima', 2022),
+    new Champion(55, "Champions/Kaisa.png", "Kai'sa", 'Female', 'Bottom', 'Void-Being', 'Mana', 'Ranged', 'Void', 2018),
+    new Champion(56, "Champions/Kalista.png", 'Kalista', 'Female', 'Bottom', 'Undead', 'Mana', 'Ranged', 'Shadow Isles', 2014),
+    new Champion(57, "Champions/Karma.png", 'Karma', 'Female', 'Support', 'Spiritualist', 'Mana', 'Ranged', 'Ionia', 2011),
+    new Champion(58, "Champions/Karthus.png", 'Karthus', 'Male', 'Jungle', 'Undead', 'Mana', 'Ranged', 'Shadow Isles', 2009),
+    new Champion(59, "Champions/Kassadin.png", 'Kassadin', 'Male', 'Middle', 'Void-Being', 'Mana', 'Melee', 'Void', 2009),
+    new Champion(60, "Champions/Katarina.png", 'Katarina', 'Female', 'Middle', 'Human', 'Manaless', 'Melee', 'Noxus', 2009),
+    new Champion(61, "Champions/Kayle.png", 'Kayle', 'Female', 'Top', 'Aspect', 'Mana', 'Both', 'Demacia', 2009),
+    new Champion(62, "Champions/Kayn.png", 'Kayn', 'Male', 'Jungle', 'Magically Altered', 'Mana', 'Melee', 'Ionia', 2017),
+    new Champion(63, "Champions/Kennen.png", 'Kennen', 'Male', 'Top', 'Yordle', 'Energy', 'Ranged', 'Ionia', 2010),
+    new Champion(64, "Champions/Khazix.png", "Kha'zix", 'Male', 'Jungle', 'Void-Being', 'Mana', 'Melee', 'Void', 2012),
+    new Champion(65, "Champions/Kindred.png", 'Kindred', 'Other', 'Jungle', 'God', 'Mana', 'Ranged', 'Runeterra', 2015),
+    new Champion(66, "Champions/Kled.png", 'Kled', 'Male', 'Top', 'Yordle', 'Courage', 'Melee', 'Noxus', 2016),
+    new Champion(67, "Champions/Kogmaw.png", "Kog'maw", 'Male', 'Bottom', 'Void-Being', 'Mana', 'Ranged', 'Void', 2010),
+    new Champion(68, "Champions/Leblanc.png", 'Leblanc', 'Female', 'Middle', 'Magically Altered', 'Mana', 'Ranged', 'Noxus', 2010),
+    new Champion(69, "Champions/LeeSin.png", 'Lee Sin', 'Male', 'Jungle', 'Spiritualist', 'Energy', 'Melee', 'Ionia', 2011),
+    new Champion(70, "Champions/Leona.png", 'Leona', 'Female', 'Support', 'Aspect', 'Mana', 'Melee', 'Targon', 2011),
+    new Champion(71, "Champions/Lillia.png", 'Lillia', 'Female', 'Jungle', 'Spirit', 'Mana', 'Melee', 'Ionia', 2020),
+    new Champion(72, "Champions/Lissandra.png", 'Lissandra', 'Female', 'Middle', 'Iceborn', 'Mana', 'Ranged', 'Freljord', 2013),
+    new Champion(73, "Champions/Lucian.png", 'Lucian', 'Male', 'Bottom', 'Human', 'Mana', 'Ranged', 'Demacia', 2013),
+    new Champion(74, "Champions/Lulu.png", 'Lulu', 'Female', 'Support', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2012),
+    new Champion(75, "Champions/Lux.png", 'Lux', 'Female', 'Support', 'Human', 'Mana', 'Ranged', 'Demacia', 2010),
+    new Champion(76, "Champions/Malphite.png", 'Malphite', 'Male', 'Top', 'Golem', 'Mana', 'Melee', 'Ixtal', 2009),
+    new Champion(77, "Champions/Malzahar.png", 'Malzahar', 'Male', 'Middle', 'Void-Being', 'Mana', 'Ranged', 'Void', 2010),
+    new Champion(78, "Champions/Maokai.png", 'Maokai', 'Male', 'Support', 'Spirit', 'Mana', 'Melee', 'Shadow Isles', 2011),
+    new Champion(79, "Champions/MasterYi.png", 'Master Yi', 'Male', 'Jungle', 'Spiritualist', 'Mana', 'Melee', 'Ionia', 2009),
+    new Champion(80, "Champions/Milio.png", 'Milio', 'Male', 'Support', 'Human', 'Mana', 'Ranged', 'Ixtal', 2023),
+    new Champion(81, "Champions/MissFortune.png", 'Miss Fortune', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Bilgewater', 2010),
+    new Champion(82, "Champions/Mordekaiser.png", 'Mordekaiser', 'Male', 'Top', 'Revenant', 'Shield', 'Melee', 'Noxus', 2010),
+    new Champion(83, "Champions/Morgana.png", 'Morgana', 'Female', 'Support', 'Aspect', 'Mana', 'Ranged', 'Demacia', 2009),
+    new Champion(84, "Champions/Naafiri.png", 'Naafiri', 'Female', 'Middle', 'Darkin', 'Mana', 'Melee', 'Shurima', 2023),
+    new Champion(85, "Champions/Nami.png", 'Nami', 'Female', 'Support', 'Vastayan', 'Mana', 'Ranged', 'Bilgewater', 2012),
+    new Champion(86, "Champions/Nasus.png", 'Nasus', 'Male', 'Top', 'Ascended', 'Mana', 'Melee', 'Shurima', 2009),
+    new Champion(87, "Champions/Nautilus.png", 'Nautilus', 'Male', 'Support', 'Revenant', 'Mana', 'Melee', 'Bilgewater', 2012),
+    new Champion(88, "Champions/Neeko.png", 'Neeko', 'Female', 'Middle', 'Vastayan', 'Mana', 'Ranged', 'Ixtal', 2018),
+    new Champion(89, "Champions/Nidalee.png", 'Nidalee', 'Female', 'Jungle', 'Human', 'Mana', 'Both', 'Ixtal', 2009),
+    new Champion(90, "Champions/Nilah.png", 'Nilah', 'Female', 'Bottom', 'Human', 'Mana', 'Melee', 'Bilgewater', 2022),
+    new Champion(91, "Champions/Nocturne.png", 'Nocturne', 'Male', 'Jungle', 'Demon', 'Mana', 'Melee', 'Runeterra', 2011),
+    new Champion(92, "Champions/Nunu&Willump.png", 'Nunu & Willump', 'Male', 'Jungle', 'Human', 'Mana', 'Melee', 'Freljord', 2009),
+    new Champion(93, "Champions/Olaf.png", 'Olaf', 'Male', 'Top', 'Iceborn', 'Mana', 'Melee', 'Freljord', 2010),
+    new Champion(94, "Champions/Orianna.png", 'Orianna', 'Female', 'Middle', 'Golem', 'Mana', 'Ranged', 'Piltover', 2011),
+    new Champion(95, "Champions/Ornn.png", 'Ornn', 'Male', 'Top', 'God', 'Mana', 'Melee', 'Freljord', 2017),
+    new Champion(96, "Champions/Pantheon.png", 'Pantheon', 'Male', 'Middle', 'Aspect', 'Mana', 'Melee', 'Targon', 2010),
+    new Champion(97, "Champions/Poppy.png", 'Poppy', 'Female', 'Top', 'Yordle', 'Mana', 'Melee', 'Demacia', 2010),
+    new Champion(98, "Champions/Pyke.png", 'Pyke', 'Male', 'Support', 'Revenant', 'Mana', 'Melee', 'Bilgewater', 2018),
+    new Champion(99, "Champions/Qiyana.png", 'Qiyana', 'Female', 'Middle', 'Human', 'Mana', 'Melee', 'Ixtal', 2019),
+    new Champion(100, "Champions/Quinn.png", 'Quinn', 'Female', 'Top', 'Human', 'Mana', 'Ranged', 'Demacia', 2013),
+    new Champion(101, "Champions/Rakan.png", 'Rakan', 'Male', 'Support', 'Vastayan', 'Mana', 'Melee', 'Ionia', 2017),
+    new Champion(102, "Champions/Rammus.png", 'Rammus', 'Male', 'Jungle', 'Ascended', 'Mana', 'Melee', 'Shurima', 2009),
+    new Champion(103, "Champions/RekSai.png", "Rek'sai", 'Female', 'Jungle', 'Void-Being', 'Rage', 'Melee', 'Void', 2014),
+    new Champion(104, "Champions/Rell.png", 'Rell', 'Female', 'Support', 'Human', 'Mana', 'Melee', 'Noxus', 2020),
+    new Champion(105, "Champions/RenataGlasc.png", 'Renata Glasc', 'Female', 'Support', 'Human', 'Mana', 'Ranged', 'Zaun', 2022),
+    new Champion(106, "Champions/Renekton.png", 'Renekton', 'Male', 'Top', 'Ascended', 'Fury', 'Melee', 'Shurima', 2011),
+    new Champion(107, "Champions/Rengar.png", 'Rengar', 'Male', 'Jungle', 'Vastayan', 'Ferocity', 'Melee', 'Ixtal', 2012),
+    new Champion(108, "Champions/Riven.png", 'Riven', 'Female', 'Top', 'Human', 'Manaless', 'Melee', 'Ionia', 2011),
+    new Champion(109, "Champions/Rumble.png", 'Rumble', 'Male', 'Top', 'Yordle', 'Heat', 'Melee', 'Bandle City', 2011),
+    new Champion(110, "Champions/Ryze.png", 'Ryze', 'Male', 'Middle', 'Human', 'Mana', 'Ranged', 'Runeterra', 2009),
+    new Champion(111, "Champions/Samira.png", 'Samira', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Noxus', 2020),
+    new Champion(112, "Champions/Sejuani.png", 'Sejuani', 'Female', 'Jungle', 'Iceborn', 'Mana', 'Melee', 'Freljord', 2012),
+    new Champion(113, "Champions/Senna.png", 'Senna', 'Female', 'Support', 'Undead', 'Mana', 'Ranged', 'Shadow Isles', 2019),
+    new Champion(114, "Champions/Seraphine.png", 'Seraphine', 'Female', 'Support', 'Human', 'Mana', 'Ranged', 'Zaun', 2020),
+    new Champion(115, "Champions/Sett.png", 'Sett', 'Male', 'Top', 'Vastayan', 'Grit', 'Melee', 'Ionia', 2020),
+    new Champion(116, "Champions/Shaco.png", 'Shaco', 'Male', 'Jungle', 'Spirit', 'Mana', 'Melee', 'Runeterra', 2009),
+    new Champion(117, "Champions/Shen.png", 'Shen', 'Male', 'Top', 'Human', 'Energy', 'Melee', 'Ionia', 2010),
+    new Champion(118, "Champions/Shyvana.png", 'Shyvana', 'Female', 'Jungle', 'Dragon', 'Fury', 'Melee', 'Demacia', 2011),
+    new Champion(119, "Champions/Singed.png", 'Singed', 'Male', 'Top', 'Human', 'Mana', 'Melee', 'Zaun', 2009),
+    new Champion(120, "Champions/Sion.png", 'Sion', 'Male', 'Top', 'Undead', 'Mana', 'Melee', 'Noxus', 2009),
+    new Champion(121, "Champions/Sivir.png", 'Sivir', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Shurima', 2009),
+    new Champion(122, "Champions/Skarner.png", 'Skarner', 'Male', 'Jungle', 'Crystal', 'Mana', 'Melee', 'Shurima', 2010),
+    new Champion(123, "Champions/Sona.png", 'Sona', 'Female', 'Support', 'Vastayan', 'Mana', 'Ranged', 'Demacia', 2010),
+    new Champion(124, "Champions/Soraka.png", 'Soraka', 'Female', 'Support', 'Aspect', 'Mana', 'Ranged', 'Mount Targon', 2009),
+    new Champion(125, "Champions/Swain.png", 'Swain', 'Male', 'Middle', 'Human', 'Mana', 'Ranged', 'Noxus', 2010),
+    new Champion(126, "Champions/Sylas.png", 'Sylas', 'Male', 'Middle', 'Human', 'Mana', 'Melee', 'Demacia', 2019),
+    new Champion(127, "Champions/Syndra.png", 'Syndra', 'Female', 'Middle', 'Human', 'Mana', 'Ranged', 'Ionia', 2012),
+    new Champion(128, "Champions/TahmKench.png", 'Tahm Kench', 'Male', 'Support', 'River Spirit', 'Mana', 'Melee', 'Runeterra', 2015),
+    new Champion(129, "Champions/Taliyah.png", 'Taliyah', 'Female', 'Middle', 'Shuriman', 'Mana', 'Ranged', 'Shurima', 2016),
+    new Champion(130, "Champions/Talon.png", 'Talon', 'Male', 'Middle', 'Human', 'Mana', 'Melee', 'Noxus', 2011),
+    new Champion(131, "Champions/Taric.png", 'Taric', 'Male', 'Support', 'Aspect', 'Mana', 'Melee', 'Demacia', 2009),
+    new Champion(132, "Champions/Teemo.png", 'Teemo', 'Male', 'Top', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2009),
+    new Champion(133, "Champions/Thresh.png", 'Thresh', 'Male', 'Support', 'Undead', 'Mana', 'Ranged', 'Shadow Isles', 2013),
+    new Champion(134, "Champions/Tristana.png", 'Tristana', 'Female', 'Bottom', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2009),
+    new Champion(135, "Champions/Trundle.png", 'Trundle', 'Male', 'Top', 'Troll', 'Mana', 'Melee', 'Freljord', 2010),
+    new Champion(136, "Champions/Tryndamere.png", 'Tryndamere', 'Male', 'Top', 'Human', 'Fury', 'Melee', 'Freljord', 2009),
+    new Champion(137, "Champions/TwistedFate.png", 'Twisted Fate', 'Male', 'Middle', 'Human', 'Mana', 'Ranged', 'Runeterra', 2009),
+    new Champion(138, "Champions/Twitch.png", 'Twitch', 'Male', 'Bottom', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2009),
+    new Champion(139, "Champions/Udyr.png", 'Udyr', 'Male', 'Jungle', 'Human', 'Mana', 'Melee', 'Runeterra', 2009),
+    new Champion(140, "Champions/Urgot.png", 'Urgot', 'Male', 'Top', 'Human', 'Mana', 'Ranged', 'Noxus', 2010),
+    new Champion(141, "Champions/Varus.png", 'Varus', 'Male', 'Bottom', 'Darkin', 'Mana', 'Ranged', 'Ionia', 2012),
+    new Champion(142, "Champions/Vayne.png", 'Vayne', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Demacia', 2011),
+    new Champion(143, "Champions/Veigar.png", 'Veigar', 'Male', 'Middle', 'Yordle', 'Mana', 'Ranged', 'Bandle City', 2009),
+    new Champion(144, "Champions/Velkoz.png", 'Velkoz', 'Male', 'Middle', 'Void-Being', 'Mana', 'Ranged', 'Void', 2013),
+    new Champion(145, "Champions/Vex.png", 'Female', 'Middle', 'Yordle', 'Mana', 'Ranged', 'Shadow Isles', 2021),
+    new Champion(146, "Champions/Vi.png", 'Vi', 'Female', 'Jungle', 'Human', 'Mana', 'Melee', 'Piltover', 2012),
+    new Champion(147, "Champions/Viego.png", 'Viego', 'Male', 'Jungle', 'Undead', 'Mana', 'Melee', 'Shadow Isles', 2021),
+    new Champion(148, "Champions/Viktor.png", 'Viktor', 'Male', 'Middle', 'Human', 'Mana', 'Ranged', 'Zaun', 2011),
+    new Champion(149, "Champions/Vladimir.png", 'Vladimir', 'Male', 'Middle', 'Human', 'Health costs', 'Ranged', 'Noxus', 2010),
+    new Champion(150, "Champions/Volibear.png", 'Volibear', 'Male', 'Top', 'Spirit Bear', 'Mana', 'Melee', 'Freljord', 2011),
+    new Champion(151, "Champions/Warwick.png", 'Warwick', 'Male', 'Jungle', 'Human', 'Mana', 'Melee', 'Zaun', 2009),
+    new Champion(152, "Champions/Wukong.png", 'Wukong', 'Male', 'Top', 'Vastayan', 'Mana', 'Melee', 'Ionia', 2009),
+    new Champion(153, "Champions/Xayah.png", 'Xayah', 'Female', 'Bottom', 'Vastayan', 'Mana', 'Ranged', 'Ionia', 2017),
+    new Champion(154, "Champions/Xerath.png", 'Xerath', 'Male', 'Middle', 'Ascended', 'Mana', 'Ranged', 'Shurima', 2011),
+    new Champion(155, "Champions/XinZhao.png", 'Xin Zhao', 'Male', 'Jungle', 'Human', 'Mana', 'Melee', 'Demacia', 2009),
+    new Champion(156, "Champions/Yasuo.png", 'Yasuo', 'Male', 'Middle', 'Human', 'Flow', 'Melee', 'Ionia', 2013),
+    new Champion(157, "Champions/Yone.png", 'Yone', 'Male', 'Middle', 'Human', 'Resolve', 'Melee', 'Ionia', 2020),
+    new Champion(158, "Champions/Yorick.png", 'Yorick', 'Male', 'Top', 'Undead', 'Mana', 'Melee', 'Shadow Isles', 2011),
+    new Champion(159, "Champions/Yuumi.png", 'Yuumi', 'Other', 'Support', 'Spirit', 'Mana', 'Ranged', 'Bandle City', 2019),
+    new Champion(160, "Champions/Zac.png", 'Zac', 'Male', 'Jungle', 'Magically Altered', 'Health costs', 'Melee', 'Zaun', 2013),
+    new Champion(161, "Champions/Zed.png", 'Zed', 'Male', 'Middle', 'Human', 'Energy', 'Melee', 'Ionia', 2012),
+    new Champion(162, "Champions/Zeri.png", 'Zeri', 'Female', 'Bottom', 'Human', 'Mana', 'Ranged', 'Zaun', 2022),
+    new Champion(163, "Champions/Ziggs.png", 'Ziggs', 'Male', 'Middle', 'Yordle', 'Mana', 'Ranged', 'Zaun', 2012),
+    new Champion(164, "Champions/Zilean.png", 'Zilean', 'Male', 'Support', 'Human', 'Mana', 'Ranged', 'Zaun', 2009),
+    new Champion(165, "Champions/Zoe.png", 'Zoe', 'Female', 'Middle', 'Aspect', 'Mana', 'Ranged', 'Targon', 2017),
+    new Champion(166, "Champions/Zyra.png", 'Zyra', 'Female', 'Bottom', 'Spirit', 'Mana', 'Ranged', 'Ionia', 2012),
 ];
 let ansChamp = champList[0];
 let champGuess;
@@ -266,54 +268,53 @@ function getSelectedChampion() {
 }
 
 function sleep(seconds) {
-    return new Promise (resolve => setTimeout(resolve, seconds));
+    return new Promise(resolve => setTimeout(resolve, seconds));
 }
 
 async function compareChampInfo(champGuess, ansChamp) {
     let table = document.getElementById("champ-table");
     let row = table.insertRow(-1);
     if (champGuess) {
-
-        row.insertCell(0).textContent = champGuess.champName;
-        if (champGuess.champName == ansChamp.champName){row.cells[0].classList.add("rotating-cell-correct");}
-        else {row.cells[0].classList.add("rotating-cell-incorrect");}
-        await sleep(500);
+        var champImg = document.createElement("img");
+        champImg.src = champGuess.champImage;
+        row.insertCell(0);
+        row.cells[0].appendChild(champImg);
 
         row.insertCell(1).textContent = champGuess.gender;
-        if (champGuess.gender == ansChamp.gender){row.cells[1].classList.add("rotating-cell-correct");}
-        else {row.cells[1].classList.add("rotating-cell-incorrect");}
+        if (champGuess.gender == ansChamp.gender) { row.cells[1].classList.add("rotating-cell-correct"); }
+        else { row.cells[1].classList.add("rotating-cell-incorrect"); }
         await sleep(500);
 
         row.insertCell(2).textContent = champGuess.position;
-        if (champGuess.position == ansChamp.position){row.cells[2].classList.add("rotating-cell-correct");}
-        else {row.cells[2].classList.add("rotating-cell-incorrect");}
+        if (champGuess.position == ansChamp.position) { row.cells[2].classList.add("rotating-cell-correct"); }
+        else { row.cells[2].classList.add("rotating-cell-incorrect"); }
         await sleep(500);
 
         row.insertCell(3).textContent = champGuess.species;
-        if (champGuess.species == ansChamp.species){row.cells[3].classList.add("rotating-cell-correct");}
-        else {row.cells[3].classList.add("rotating-cell-incorrect");}
+        if (champGuess.species == ansChamp.species) { row.cells[3].classList.add("rotating-cell-correct"); }
+        else { row.cells[3].classList.add("rotating-cell-incorrect"); }
         await sleep(500);
 
         row.insertCell(4).textContent = champGuess.resource;
-        if (champGuess.resource == ansChamp.resource){row.cells[4].classList.add("rotating-cell-correct");}
-        else {row.cells[4].classList.add("rotating-cell-incorrect");}
+        if (champGuess.resource == ansChamp.resource) { row.cells[4].classList.add("rotating-cell-correct"); }
+        else { row.cells[4].classList.add("rotating-cell-incorrect"); }
         await sleep(500);
 
 
         row.insertCell(5).textContent = champGuess.rangeType;
-        if (champGuess.rangeType == ansChamp.rangeType){row.cells[5].classList.add("rotating-cell-correct");}
-        else {row.cells[5].classList.add("rotating-cell-incorrect");}
+        if (champGuess.rangeType == ansChamp.rangeType) { row.cells[5].classList.add("rotating-cell-correct"); }
+        else { row.cells[5].classList.add("rotating-cell-incorrect"); }
         await sleep(500);
 
 
         row.insertCell(6).textContent = champGuess.region;
-        if (champGuess.region == ansChamp.region){row.cells[6].classList.add("rotating-cell-correct");}
-        else {row.cells[6].classList.add("rotating-cell-incorrect");}
+        if (champGuess.region == ansChamp.region) { row.cells[6].classList.add("rotating-cell-correct"); }
+        else { row.cells[6].classList.add("rotating-cell-incorrect"); }
         await sleep(500);
 
         row.insertCell(7).textContent = champGuess.year;
-        if (champGuess.year == ansChamp.year){row.cells[7].classList.add("rotating-cell-correct");}
-        else {row.cells[7].classList.add("rotating-cell-incorrect");}
+        if (champGuess.year == ansChamp.year) { row.cells[7].classList.add("rotating-cell-correct"); }
+        else { row.cells[7].classList.add("rotating-cell-incorrect"); }
         await sleep(500);
 
         if (champGuess.champNum === ansChamp.champNum) {
